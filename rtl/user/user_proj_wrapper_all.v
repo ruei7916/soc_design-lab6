@@ -88,11 +88,9 @@ wire rst;
 
 wire [31:0] rdata; 
 wire [31:0] wdata;
-reg [BITS-1:0] count;
 
 wire valid;
 wire [3:0] wstrb;
-wire [31:0] la_write;
 wire decoded;
 
 reg ready;
@@ -105,18 +103,9 @@ assign wbs_dat_o = rdata;
 assign wdata = wbs_dat_i;
 assign wbs_ack_o = ready;
 
-// IO
-assign io_out = count;
-assign io_oeb = {(`MPRJ_IO_PADS-1){rst}};
+assign clk = wb_clk_i;
+assign rst = wb_rst_i;
 
-
-// LA
-assign la_data_out = {{(127-BITS){1'b0}}, count};
-// Assuming LA probes [63:32] are for controlling the count register  
-assign la_write = ~la_oenb[63:32] & ~{BITS{valid}};
-// Assuming LA probes [65:64] are for controlling the count clk & reset  
-assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
-assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
 assign decoded = wbs_adr_i[31:20] == 12'h380 ? 1'b1 : 1'b0;
 always @(posedge clk) begin
     if (rst) begin
@@ -132,20 +121,6 @@ always @(posedge clk) begin
                 delayed_count <= delayed_count + 1;
             end
         end
-    end
-end
-
-always @(posedge clk) begin
-    if (rst) begin
-        count <= 0;
-    end else if (count == 0) begin
-        if ((wbs_adr_i == 32'h38000000) && valid && (|wstrb == 1'b0)) begin
-            count <= count + 1;
-        end else begin
-            count <= count;
-        end
-    end else begin
-        count <= count + 1;
     end
 end
 
