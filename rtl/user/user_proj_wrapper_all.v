@@ -82,10 +82,6 @@ module user_project_wrapper #(
 wire clk;
 wire rst;
 
-    wire [`MPRJ_IO_PADS-1:0] io_in;
-    wire [`MPRJ_IO_PADS-1:0] io_out;
-    wire [`MPRJ_IO_PADS-1:0] io_oeb;
-
 wire [31:0] rdata; 
 wire [31:0] wdata;
 
