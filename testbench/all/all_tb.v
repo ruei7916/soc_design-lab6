@@ -145,7 +145,7 @@ module all_tb;
 
 		// Repeat cycles of 5000 clock edges as needed to complete testbench
 		repeat (200) begin
-			repeat (2500) @(posedge clock);
+			repeat (1500) @(posedge clock);
 			// $display("+1000 cycles");
 		end
 		$display("%c[1;31m",27);
@@ -174,23 +174,31 @@ module all_tb;
 		wait(checkbits == 16'hAB60);
 		$display("qs started");
 		wait(checkbits == 16'd40);
-		$display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		$display("Call function qsort() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
 		wait(checkbits == 16'd893);
-		$display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		$display("Call function qsort() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
 		wait(checkbits == 16'd2541);
-		$display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		$display("Call function qsort() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
 		wait(checkbits == 16'd2669);
-		$display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);		
+		$display("Call function qsort() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);		
 		wait(checkbits == 16'hAB61);
 		$display("qs passed");
 		wait(checkbits == 16'hAB70);
 		$display("fir started");
+		wait(checkbits == 16'd0);
+		$display("Call function fir() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		wait(checkbits == 16'd65526);
+		$display("Call function fir() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		wait(checkbits == 16'd65507);
+		$display("Call function fir() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		wait(checkbits == 16'd915);
+		$display("Call function fir() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
 		wait(checkbits == 16'hAB71);
 		$display("fir passed");
 		
 	end
 	initial begin
-		#4622000	//(random delay)
+		#2550000	//(random delay)
 		$display("uart started");
 		send_data_2;
 	end
