@@ -112,6 +112,7 @@ module tbuart (
 		if(recv_state==R_STOP_BIT)begin
 			recv_buf_data <= {recv_buf_data, recv_pattern};
 			$display("recevied word %d", recv_pattern);
+			$display("uart passed");
 		end
 	end
 	
