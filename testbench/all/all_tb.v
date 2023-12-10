@@ -154,9 +154,6 @@ module all_tb;
 	end
 
 	initial begin
-		wait(checkbits == 16'hAB40);
-		$display("uart started");
-		send_data_2;
 		wait(checkbits == 16'hAB50);
 		$display("mm started");
 		wait(checkbits == 16'h003E);
@@ -187,7 +184,11 @@ module all_tb;
 		$display("fir passed");
 		
 	end
-
+	initial begin
+		#4622000	//(random delay)
+		$display("uart started");
+		send_data_2;
+	end
 	task send_data_1;begin
 		@(posedge clock);
 		tx_start = 1;
@@ -300,5 +301,4 @@ module all_tb;
 
 endmodule
 `default_nettype wire
-
 
