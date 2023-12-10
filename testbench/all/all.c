@@ -116,7 +116,6 @@ void main()
 	reg_mprj_xfer = 1;
 	while (reg_mprj_xfer == 1);
 	// Flag start of the test 
-	reg_mprj_datal = 0xAB400000;
 	reg_mprj_datal = 0xAB500000;
 	int *tmp = matmul();
 	reg_mprj_datal = *tmp << 16;
