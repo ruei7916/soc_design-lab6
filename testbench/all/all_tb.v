@@ -145,10 +145,15 @@ module all_tb;
 
 		// Repeat cycles of 5000 clock edges as needed to complete testbench
 		repeat (200) begin
-			repeat (5000) @(posedge clock);
+			repeat (2500) @(posedge clock);
 			// $display("+1000 cycles");
 		end
 		$display("%c[1;31m",27);
+		`ifdef GL
+			$display ("Monitor: Timeout, Test LA (GL) Failed");
+		`else
+			$display ("Monitor: Timeout, Simulation done");
+		`endif
 		$display("%c[0m",27);
 		$finish;
 	end
