@@ -107,11 +107,17 @@ void main()
     reg_mprj_io_2  = GPIO_MODE_MGMT_STD_OUTPUT;
     reg_mprj_io_1  = GPIO_MODE_MGMT_STD_OUTPUT;
     reg_mprj_io_0  = GPIO_MODE_MGMT_STD_OUTPUT;
-
     reg_mprj_io_6  = GPIO_MODE_USER_STD_OUTPUT;
     reg_mprj_io_5  = GPIO_MODE_USER_STD_INPUT_NOPULL;
     reg_uart_enable = 1;
-
+    #ifdef USER_PROJ_IRQ0_EN	
+	// unmask USER_IRQ_0_INTERRUPT
+	mask = irq_getmask();
+	mask |= 1 << USER_IRQ_0_INTERRUPT; // USER_IRQ_0_INTERRUPT = 2
+	irq_setmask(mask);
+	// enable user_irq_0_ev_enable
+	user_irq_0_ev_enable_write(1);	
+    #endif
 	/* Apply configuration */
 	reg_mprj_xfer = 1;
 	while (reg_mprj_xfer == 1);
@@ -152,13 +158,4 @@ void main()
 	reg_mprj_datal = *(tmp+10) << 16;	
 	reg_mprj_datal = 0xAB710000;
 
-#ifdef USER_PROJ_IRQ0_EN	
-	// unmask USER_IRQ_0_INTERRUPT
-	mask = irq_getmask();
-	mask |= 1 << USER_IRQ_0_INTERRUPT; // USER_IRQ_0_INTERRUPT = 2
-	irq_setmask(mask);
-	// enable user_irq_0_ev_enable
-	user_irq_0_ev_enable_write(1);	
-#endif
 }
-
