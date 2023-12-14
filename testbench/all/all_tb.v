@@ -149,11 +149,11 @@ module all_tb;
 			// $display("+1000 cycles");
 		end
 		$display("%c[1;31m",27);
-		`ifdef GL
+		/*`ifdef GL
 			$display ("Monitor: Timeout, Test LA (GL) Failed");
 		`else
 			$display ("Monitor: Timeout, Simulation done");
-		`endif
+		`endif*/
 		$display("%c[0m",27);
 		$finish;
 	end
@@ -197,9 +197,12 @@ module all_tb;
 		$display("fir passed");
 		
 	end
+	integer delay;
 	initial begin
-		#2550000	//(random delay)
-		$display("uart started");
+		delay = $urandom_range(100000,150000);
+		repeat(delay) @(posedge clock);
+		$display("UART started with random delay %d cycles", delay);
+		$display("UART interrupt at %d", $time);
 		send_data_2;
 	end
 	task send_data_1;begin
