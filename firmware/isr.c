@@ -36,7 +36,9 @@ void isr(void)
         user_irq_0_ev_pending_write(1); //Clear Interrupt Pending Event
         buf = uart_read();
         uart_write(buf);
-
+        if (buf == 10){
+            reg_mprj_datal = 0xAB800000;
+        }
     }
 #endif
 
