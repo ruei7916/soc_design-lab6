@@ -89,7 +89,7 @@ wire [3:0] wstrb_bram;
 reg bram_ready;
 wire [31:0] bram_rdata;
 wire [31:0] bram_wdata;
-reg [BITS-17:0] delayed_count, _delay_count;
+reg [BITS-1:0] delayed_count, _delay_count;
 
 // uart signals
 wire decoded_uart;
