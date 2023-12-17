@@ -1,5 +1,12 @@
 # WorkLoad Optimize SOC (WLOS) Baseline
 
+### Simulation for all workload
+```sh
+cd ~/caravel-soc_fpga-lab/lab-wlos_baseline/testbench/all
+source run_clean
+source run_sim
+```
+
 ### Simulation for matrix multiplication
 ```sh
 cd ~/caravel-soc_fpga-lab/lab-wlos_baseline/testbench/counter_la_mm
