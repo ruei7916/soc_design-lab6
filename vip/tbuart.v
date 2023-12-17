@@ -113,6 +113,7 @@ module tbuart (
 			recv_buf_data <= {recv_buf_data, recv_pattern};
 			$display("recevied word %d", recv_pattern);
 			$display("uart passed");
+			$display("Whole system end at %d", $time);
 		end
 	end
 	
