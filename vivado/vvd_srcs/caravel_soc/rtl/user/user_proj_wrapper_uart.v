@@ -30,8 +30,8 @@
  */
 
 module user_project_wrapper #(
-    parameter BITS = 1,
-    parameter DELAYS = 1
+    //parameter BITS = 32,
+    parameter DELAYS=1
 ) (
 `ifdef USE_POWER_PINS
     inout vdda1,	// User area 1 3.3V supply
@@ -89,8 +89,8 @@ wire [3:0] wstrb_bram;
 reg bram_ready;
 wire [31:0] bram_rdata;
 wire [31:0] bram_wdata;
-reg [BITS-1:0] delayed_count, _delay_count;
-
+reg delayed_count;
+reg _delay_count;
 // uart signals
 wire decoded_uart;
 wire uart_ack_o;
@@ -102,14 +102,15 @@ assign rst = wb_rst_i;
 
 // bram
 assign decoded_bram = (wbs_adr_i[31:20] == 12'h380) ? 1'b1 : 1'b0;
-assign valid_bram = wbs_cyc_i && wbs_stb_i && decoded_bram; // EN
-assign wstrb_bram = wbs_sel_i & {4{wbs_we_i}}; // WE
-assign bram_wdata = wbs_dat_i; // Di
+assign valid_bram = wbs_cyc_i && wbs_stb_i && decoded_bram; 
+assign wstrb_bram = wbs_sel_i & {4{wbs_we_i}} & {4{decoded_bram}};
+assign bram_wdata = wbs_dat_i;
 assign wbs_dat_o = decoded_bram ? bram_rdata : uart_dat_o;//
 assign wbs_ack_o = decoded_bram ? bram_ready : uart_ack_o;//
 
 // uart
 assign decoded_uart = (wbs_adr_i[31:20] == 12'h300) ? 1'b1 : 1'b0;
+
 
 always @(posedge clk ) begin
     if(rst)begin
@@ -131,6 +132,9 @@ always @(*) begin
 end
 
 
+/*--------------------------------------*/
+/* User project is instantiated  here   */
+/*--------------------------------------*/
 bram user_bram (
     .CLK(clk),
     .WE0(wstrb_bram),
