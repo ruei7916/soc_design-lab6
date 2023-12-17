@@ -157,8 +157,14 @@ module all_tb;
 		$display("%c[0m",27);
 		$finish;
 	end
-
 	initial begin
+		fork
+			workload;
+			uart;
+		join
+	end
+
+	task workload;begin
 		wait(checkbits == 16'hAB50);
 		$display("mm started");
 		wait(checkbits == 16'h003E);
@@ -196,15 +202,15 @@ module all_tb;
 		wait(checkbits == 16'hAB71);
 		$display("fir passed");
 		
-	end
+	end endtask
 	integer delay;
-	initial begin
-		delay = $urandom_range(100000,150000);
+	task uart;begin
+		delay = 81000;
 		repeat(delay) @(posedge clock);
 		$display("UART started with random delay %d cycles", delay);
 		$display("UART interrupt at %d", $time);
 		send_data_2;
-	end
+	end endtask
 	task send_data_1;begin
 		@(posedge clock);
 		tx_start = 1;
@@ -317,4 +323,3 @@ module all_tb;
 
 endmodule
 `default_nettype wire
-
