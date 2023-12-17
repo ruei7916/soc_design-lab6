@@ -1,5 +1,14 @@
 # WorkLoad Optimize SOC (WLOS) Baseline
 
+### Reports
+[SOC_Lab6_report.pdf](/SOC_Lab6_report.pdf)<br>
+[timing report](/vivado/timing_report.log)<br>
+You can find other reports under the vivado project directory.
+
+
+### Vivado project
+See [here](/vivado/vvd_caravel_fpga)
+
 ### Simulation for all workload
 ```sh
 cd ~/caravel-soc_fpga-lab/lab-wlos_baseline/testbench/all
